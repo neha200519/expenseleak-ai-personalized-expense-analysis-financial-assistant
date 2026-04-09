@@ -1,0 +1,251 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfileInput = 
+ record {
+   currency: text;
+   email: text;
+   monthlyBudget: float64;
+   name: text;
+ };
+type UserProfile = 
+ record {
+   currency: text;
+   email: text;
+   monthlyBudget: float64;
+   name: text;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type ThemePreference = 
+ record {
+   customColor: opt text;
+   mode: text;
+   palette: text;
+ };
+type ThemeOption = 
+ record {
+   description: text;
+   id: text;
+   name: text;
+ };
+type SpendingMonitorSettingsView = 
+ record {
+   consentGiven: bool;
+   monitoredCategories: vec text;
+   thresholds: vec record {
+                     text;
+                     float64;
+                   };
+ };
+type SpendingAlert = 
+ record {
+   category: text;
+   spent: float64;
+   status: AlertStatus;
+   threshold: float64;
+ };
+type RiskLevel = 
+ variant {
+   High;
+   Low;
+   Medium;
+ };
+type PaymentMethod = 
+ variant {
+   Card;
+   Cash;
+   NetBanking;
+   Other;
+   UPI;
+ };
+type ExpenseUpdateInput = 
+ record {
+   amount: opt float64;
+   category: opt ExpenseCategory;
+   date: opt text;
+   merchant: opt text;
+   note: opt text;
+   paymentMethod: opt PaymentMethod;
+ };
+type ExpenseSummary = 
+ record {
+   avgExpense: float64;
+   count: nat;
+   thisMonthCount: nat;
+   thisMonthTotal: float64;
+   topCategory: text;
+   total: float64;
+ };
+type ExpenseInput = 
+ record {
+   amount: float64;
+   category: ExpenseCategory;
+   date: text;
+   merchant: text;
+   note: text;
+   paymentMethod: PaymentMethod;
+   source: text;
+ };
+type ExpenseCategory = 
+ variant {
+   Bills;
+   Entertainment;
+   Food;
+   Health;
+   Other;
+   Shopping;
+   Transport;
+   Travel;
+ };
+type Expense = 
+ record {
+   amount: float64;
+   callerId: principal;
+   category: ExpenseCategory;
+   createdAt: int;
+   date: text;
+   id: nat;
+   merchant: text;
+   note: text;
+   paymentMethod: PaymentMethod;
+   source: text;
+   updatedAt: opt int;
+ };
+type DocumentMetaInput = 
+ record {
+   fileType: text;
+   name: text;
+   size: nat;
+ };
+type DocumentMeta = 
+ record {
+   callerId: principal;
+   fileType: text;
+   id: nat;
+   name: text;
+   size: nat;
+   uploadedAt: int;
+ };
+type ChatResponse = 
+ record {
+   response: text;
+   timestamp: int;
+ };
+type ChatRequest = 
+ record {
+   context: text;
+   message: text;
+ };
+type ChatEntryInput = 
+ record {
+   content: text;
+   role: text;
+ };
+type ChatEntry = 
+ record {
+   callerId: principal;
+   content: text;
+   id: nat;
+   role: text;
+   timestamp: int;
+ };
+type BudgetStatus = 
+ record {
+   budget: float64;
+   percentage: float64;
+   remaining: float64;
+   spent: float64;
+ };
+type AlertStatus = 
+ variant {
+   Active;
+   Dismissed;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  addChatMessage: (input: ChatEntryInput) -> ();
+  addExpense: (input: ExpenseInput) -> (Expense);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  chatAssistant: (request: ChatRequest) -> (ChatResponse);
+  checkCategorySpending: () -> (vec SpendingAlert) query;
+  clearChatHistory: () -> ();
+  deleteDocument: (id: nat) -> (bool);
+  deleteExpense: (id: nat) -> (bool);
+  generateInsights: () -> (vec text) query;
+  getAIResponse: (userMessage: text, expenseContext: text) -> (text);
+  getAllThemeOptions: () -> (vec ThemeOption) query;
+  getBudgetStatus: () -> (BudgetStatus) query;
+  getCallerUserProfile: () -> (opt UserProfile) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getCategoryStats: () -> (vec record {
+                                 text;
+                                 float64;
+                               }) query;
+  getChatHistory: () -> (vec ChatEntry) query;
+  getDocumentMeta: (id: nat) -> (opt DocumentMeta) query;
+  getExpenseSummary: () -> (ExpenseSummary) query;
+  getRiskLevel: () -> (RiskLevel) query;
+  getSpendingAlerts: () -> (vec SpendingAlert) query;
+  getSpendingMonitorSettings: () -> (SpendingMonitorSettingsView) query;
+  getSpendingPersonality: () -> (text) query;
+  getUserTheme: () -> (opt ThemePreference) query;
+  isCallerAdmin: () -> (bool) query;
+  listDocuments: () -> (vec DocumentMeta) query;
+  listExpenses: () -> (vec Expense) query;
+  registerSpendingMonitorConsent: (consent: bool) -> ();
+  saveCallerUserProfile: (profile: UserProfileInput) -> ();
+  saveUserTheme: (theme: ThemePreference) -> ();
+  setAnthropicApiKey: (key: text) -> ();
+  setCategoryThreshold: (category: text, threshold: float64) -> ();
+  setMonitoredCategories: (categories: vec text) -> ();
+  transformHttpResponse: (input: TransformationInput) ->
+   (TransformationOutput) query;
+  updateExpense: (id: nat, input: ExpenseUpdateInput) -> (bool);
+  uploadDocument: (meta: DocumentMetaInput) -> (DocumentMeta);
+}

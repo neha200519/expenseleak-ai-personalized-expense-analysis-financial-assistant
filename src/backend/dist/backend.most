@@ -1,0 +1,185 @@
+// Version: 3.0.0
+type ChatEntry__966805654 =
+  {
+    callerId : Principal;
+    content : Text;
+    id : Nat;
+    role : Text;
+    timestamp : Int
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DocumentMeta__710201653 =
+  {
+    callerId : Principal;
+    fileType : Text;
+    id : Nat;
+    name : Text;
+    size : Nat;
+    uploadedAt : Int
+  };
+type ExpenseCategory__184047055 =
+  {
+    #Bills;
+    #Entertainment;
+    #Food;
+    #Health;
+    #Other;
+    #Shopping;
+    #Transport;
+    #Travel
+  };
+type Expense__25862281 =
+  {
+    amount : Float;
+    callerId : Principal;
+    category : ExpenseCategory__184047055;
+    createdAt : Int;
+    date : Text;
+    id : Nat;
+    merchant : Text;
+    note : Text;
+    paymentMethod : PaymentMethod__68978920;
+    source : Text;
+    updatedAt : ?Int
+  };
+type Int__270357528 = Int__616954475;
+type Int__616954475 = Int;
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OldChatEntry__217862749 =
+  {message : Text; sender : Text; timestamp : Time__900049286};
+type OldColorTheme__333532486 =
+  {#arcticMist; #goldenDusk; #jadeHorizon; #mochaRose; #sapphireTide};
+type OldDocument__688861223 =
+  {
+    blobHash : Text;
+    contentType : Text;
+    filename : Text;
+    id : Text;
+    owner : Principal;
+    uploadedAt : Time__900049286
+  };
+type OldExpenseCategory__1051140202 =
+  {
+    #Bills;
+    #Entertainment;
+    #Food;
+    #Healthcare;
+    #Other;
+    #Shopping;
+    #Transport;
+    #Travel
+  };
+type OldExpense__340868419 =
+  {
+    amount : Float;
+    category : OldExpenseCategory__1051140202;
+    date : Time__900049286;
+    id : Text;
+    merchant : Text;
+    method : OldPaymentMethod__832006779;
+    note : Text;
+    userId : Principal
+  };
+type OldPaymentMethod__832006779 =
+  {#BankTransfer; #Cash; #CreditCard; #DebitCard; #DigitalWallet; #Other};
+type OldSpendingMonitorSettings__244597117 =
+  {
+    monitoredCategories : [OldExpenseCategory__1051140202];
+    optInStatus : Bool;
+    thresholds : Map__605269027<OldExpenseCategory__1051140202, Float>;
+    userId : Principal
+  };
+type OldThemePreference__58918386 =
+  {colorTheme : ?OldColorTheme__333532486; isDarkMode : Bool};
+type OldUserProfile__416069324 =
+  {currency : ?Text; email : ?Text; name : Text};
+type PaymentMethod__68978920 = {#Card; #Cash; #NetBanking; #Other; #UPI};
+type SpendingMonitorInternal__149187090 =
+  {
+    consentGiven : Bool;
+    monitoredCategories : List__415060402<Text>;
+    thresholds : Map__605269027<Text, Float>
+  };
+type ThemePreference__140704481 =
+  {customColor : ?Text; mode : Text; palette : Text};
+type Time__796480547 = Int__270357528;
+type Time__900049286 = Time__796480547;
+type UserProfile__491224006 =
+  {currency : Text; email : Text; monthlyBudget : Float; name : Text};
+type UserRole__1054455867 = {#admin; #guest; #user};
+actor ({
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  in anthropicApiKey : Text;
+  in chatHistory :
+    Map__605269027<Principal, List__415060402<OldChatEntry__217862749>>;
+  in documents : Map__605269027<Text, OldDocument__688861223>;
+  in expenses :
+    Map__605269027<Principal, List__415060402<OldExpense__340868419>>;
+  in nextId : Int;
+  in spendingMonitorSettings :
+    Map__605269027<Principal, OldSpendingMonitorSettings__244597117>;
+  in userProfiles : Map__605269027<Principal, OldUserProfile__416069324>;
+  in userThemes : Map__605269027<Principal, OldThemePreference__58918386>
+}, {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable var anthropicApiKey : Text;
+  stable chatHistory :
+    {
+      var root :
+        Node__46230540<Principal, List__415060402<ChatEntry__966805654>>;
+      var size : Nat__490723111
+    };
+  stable documents :
+    {
+      var root :
+        Node__46230540<Principal, List__415060402<DocumentMeta__710201653>>;
+      var size : Nat__490723111
+    };
+  stable expenses :
+    {
+      var root : Node__46230540<Principal, List__415060402<Expense__25862281>>;
+      var size : Nat__490723111
+    };
+  stable var nextId : Nat;
+  stable spendingMonitor :
+    {
+      var root : Node__46230540<Principal, SpendingMonitorInternal__149187090>;
+      var size : Nat__490723111
+    };
+  stable userProfiles :
+    {
+      var root : Node__46230540<Principal, UserProfile__491224006>;
+      var size : Nat__490723111
+    };
+  stable userThemes :
+    {
+      var root : Node__46230540<Principal, ThemePreference__140704481>;
+      var size : Nat__490723111
+    }
+}) ;
