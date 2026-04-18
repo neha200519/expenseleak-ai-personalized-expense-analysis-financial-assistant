@@ -1,5 +1,8 @@
 # ExpenseLeak AI – Smart Expense Analysis System
 
+A scalable expense tracking system with real-time analytics and AI-driven insights.
+
+
 ## 🧠 Overview
 
 This project is a smart expense tracking and analysis system designed to help users monitor and understand their spending behavior.
