@@ -1,6 +1,6 @@
-ExpenseLeak AI - Smart Expense Analysis System
+# ExpenseLeak AI – Smart Expense Analysis System
 
-Overview
+## 🧠 Overview
 
 This project is a smart expense tracking and analysis system designed to help users monitor and understand their spending behavior.
 
@@ -10,7 +10,7 @@ The system is designed with scalability in mind, simulating how modern applicati
 
 ---
 
-Problem Statement
+## 🧩 Problem Statement
 
 Many students and young professionals struggle to manage their expenses due to a lack of structured tracking and analysis. Small and frequent transactions often go unnoticed, leading to overspending and poor financial planning.
 
@@ -18,7 +18,7 @@ Existing solutions mainly provide basic tracking features but fail to deliver me
 
 ---
 
-System Architecture
+## ⚙️ System Architecture
 
 User → Frontend (Web App) → Backend Services → Database (Firestore) → Data Processing → Visualization Dashboard
 
@@ -28,7 +28,7 @@ User → Frontend (Web App) → Backend Services → Database (Firestore) → Da
 
 ---
 
-Tech Stack
+## 💻 Tech Stack
 
 * Frontend: HTML, CSS, JavaScript / TypeScript
 * Backend: Firebase / Cloud Services
@@ -38,7 +38,7 @@ Tech Stack
 
 ---
 
- Key Features
+## 📊 Key Features
 
 * Expense tracking and categorization
 * Real-time data updates
@@ -48,7 +48,7 @@ Tech Stack
 
 ---
 
-Future Improvements
+## 🚀 Future Improvements
 
 * AI-based expense prediction
 * Distributed system design for scaling
@@ -57,7 +57,6 @@ Future Improvements
 
 ---
 
-Why This Project
+## 📌 Why This Project
 
 This project demonstrates my ability to design and build systems that combine user-focused features with scalable architecture and data-driven insights.
-
