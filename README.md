@@ -58,6 +58,20 @@ User → Frontend (Web App) → Backend Services → Database (Firestore) → Da
 * API-based microservices architecture
 * Optimization for handling large datasets
 
+## 📸 Screenshots
+
+### Dashboard
+![Dashboard](screenshots/dashboard.jpeg)
+
+### Voice Input
+![Voice](screenshots/voice-input.jpeg)
+
+### AI Assistant
+![AI](screenshots/ai-assistant.jpeg)
+
+### Analytics
+![Analytics](screenshots/analytics.jpeg)
+
 ---
 
 ## 📌 Why This Project
